@@ -2,6 +2,7 @@ package com.gft.teste.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +35,7 @@ public class Inventory implements Serializable {
 	private String product;
 	
 	@Column(name = "QUANTITY")
-	private Integer quantity;
+	private Long quantity;
 	
 	@Column(name = "PRICE")
 	private BigDecimal price;
@@ -74,42 +75,14 @@ public class Inventory implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Inventory other = (Inventory) obj;
-		if (industry == null) {
-			if (other.industry != null)
-				return false;
-		} else if (!industry.equals(other.industry))
-			return false;
-		if (origin == null) {
-			if (other.origin != null)
-				return false;
-		} else if (!origin.equals(other.origin))
-			return false;
-		if (originFileName == null) {
-			if (other.originFileName != null)
-				return false;
-		} else if (!originFileName.equals(other.originFileName))
-			return false;
-		if (price == null) {
-			if (other.price != null)
-				return false;
-		} else if (!price.equals(other.price))
-			return false;
-		if (product == null) {
-			if (other.product != null)
-				return false;
-		} else if (!product.equals(other.product))
-			return false;
-		if (quantity == null) {
-			if (other.quantity != null)
-				return false;
-		} else if (!quantity.equals(other.quantity))
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		return true;
+		
+		return Objects.equals(industry, other.industry) &&
+				Objects.equals(origin, other.origin) &&
+				Objects.equals(originFileName, other.originFileName) &&
+				Objects.equals(price, other.price) &&
+				Objects.equals(product, other.product) &&
+				Objects.equals(quantity, other.quantity) &&
+				Objects.equals(type, other.type);
 	}
 	
 }

@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gft.teste.batch.processor.FilterDuplicatedInSameFileItemProcessor;
 import com.gft.teste.model.Inventory;
 import com.gft.teste.repository.InventoryRepository;
 
@@ -30,7 +31,7 @@ class FilterDuplicatedInSameFileItemProcessorTests {
 	InventoryRepository inventoryRepository;
 	
 	@Test
-	void nullItemToProcess() throws IOException {
+	void nullItemToProcessTest() throws IOException {
 		when(inventoryRepository.findAllByOriginFileName(FILE_NAME_1)).thenReturn(this.getInventoryListFile1(FILE_NAME_1));
 		when(inventoryRepository.findAllByOriginFileName(FILE_NAME_2)).thenReturn(this.getInventoryListFile1(FILE_NAME_2));
 		
@@ -46,7 +47,7 @@ class FilterDuplicatedInSameFileItemProcessorTests {
 		when(inventoryRepository.findAllByOriginFileName(FILE_NAME_2)).thenReturn(this.getInventoryListFile1(FILE_NAME_2));
 		
 		FilterDuplicatedInSameFileItemProcessor processor = new FilterDuplicatedInSameFileItemProcessor(inventoryRepository, INPUT_FILES_NAME);
-		Inventory inventoryToProcess = new Inventory(null, "RTIX", new Integer(25), new BigDecimal("0.67"), "3XL", "Industrial Specialties", "LA", FILE_NAME_1);
+		Inventory inventoryToProcess = new Inventory(null, "RTIX", 25L, new BigDecimal("0.67"), "3XL", "Industrial Specialties", "LA", FILE_NAME_1);
 		Inventory inventoryProcessed = processor.process(inventoryToProcess);
 		assertNull(inventoryProcessed);
 	}
@@ -57,7 +58,7 @@ class FilterDuplicatedInSameFileItemProcessorTests {
 		when(inventoryRepository.findAllByOriginFileName(FILE_NAME_2)).thenReturn(this.getInventoryListFile1(FILE_NAME_2));
 		
 		FilterDuplicatedInSameFileItemProcessor processor = new FilterDuplicatedInSameFileItemProcessor(inventoryRepository, INPUT_FILES_NAME);
-		Inventory inventoryToProcess = new Inventory(null, "UTX", new Integer(25), new BigDecimal("0.67"), "3XL", "Industrial Specialties", "LA", FILE_NAME_1);
+		Inventory inventoryToProcess = new Inventory(null, "UTX", 25L, new BigDecimal("0.67"), "3XL", "Industrial Specialties", "LA", FILE_NAME_1);
 		Inventory inventoryProcessed = processor.process(inventoryToProcess);
 		assertNotNull(inventoryProcessed);
 		assertEquals(inventoryToProcess, inventoryProcessed);
@@ -69,7 +70,7 @@ class FilterDuplicatedInSameFileItemProcessorTests {
 		when(inventoryRepository.findAllByOriginFileName(FILE_NAME_2)).thenReturn(this.getInventoryListFile1(FILE_NAME_2));
 		
 		FilterDuplicatedInSameFileItemProcessor processor = new FilterDuplicatedInSameFileItemProcessor(inventoryRepository, INPUT_FILES_NAME);
-		Inventory inventoryToProcess = new Inventory(null, "RTIX", new Integer(25), new BigDecimal("0.67"), "3XL", "Industrial Specialties", "LA", FILE_NAME_2);
+		Inventory inventoryToProcess = new Inventory(null, "RTIX", 25L, new BigDecimal("0.67"), "3XL", "Industrial Specialties", "LA", FILE_NAME_2);
 		Inventory inventoryProcessed = processor.process(inventoryToProcess);
 		assertNotNull(inventoryProcessed);
 		assertEquals(inventoryToProcess, inventoryProcessed);
@@ -77,9 +78,9 @@ class FilterDuplicatedInSameFileItemProcessorTests {
 	
 	
 	private List<Inventory> getInventoryListFile1(String fileName) {
-		return Arrays.asList(new Inventory(null, "RTIX", new Integer(25), new BigDecimal("0.67"), "3XL", "Industrial Specialties", "LA", FILE_NAME_1),
-					  		 new Inventory(new Long(2), "UTX", new Integer(82), new BigDecimal("4.84"), "S", "Aerospace", "TX", FILE_NAME_1),
-					  		 new Inventory(null, "MUI", new Integer(22), new BigDecimal("0.91"), "2XL", "n/a", "TX", FILE_NAME_2))
+		return Arrays.asList(new Inventory(null, "RTIX", 25L, new BigDecimal("0.67"), "3XL", "Industrial Specialties", "LA", FILE_NAME_1),
+					  		 new Inventory(2L, "UTX", 82L, new BigDecimal("4.84"), "S", "Aerospace", "TX", FILE_NAME_1),
+					  		 new Inventory(null, "MUI", 22L, new BigDecimal("0.91"), "2XL", "n/a", "TX", FILE_NAME_2))
 					 .stream()
 					 .filter(inv -> inv.getOriginFileName().equals(fileName))
 					 .collect(Collectors.toList());
