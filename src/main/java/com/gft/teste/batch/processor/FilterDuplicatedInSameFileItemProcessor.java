@@ -1,6 +1,5 @@
-package com.gft.teste.processor;
+package com.gft.teste.batch.processor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ public class FilterDuplicatedInSameFileItemProcessor implements ItemProcessor<In
 	
 	private Map<String,List<Inventory>> alreadyProcessedInventory;
 	
-	public FilterDuplicatedInSameFileItemProcessor(InventoryRepository inventoryRepository, List<String> inputFilesName) throws IOException {
+	public FilterDuplicatedInSameFileItemProcessor(InventoryRepository inventoryRepository, List<String> inputFilesName) {
 		alreadyProcessedInventory = new HashMap<>();
 		inputFilesName.stream().forEach(inputFileName -> alreadyProcessedInventory.put(inputFileName, inventoryRepository.findAllByOriginFileName(inputFileName)));
 	}

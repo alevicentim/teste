@@ -27,7 +27,7 @@ class InventoryJsonLineMapperTests {
 		Inventory inventory = mapper.mapLine("{\"data\":[{\"product\":\"RTIX\",\"quantity\":25,\"price\":\"$0.67\",\"type\":\"3XL\",\"industry\":\"Industrial Specialties\",\"origin\":\"LA\"},", 1);
 		
 		assertEquals("RTIX", inventory.getProduct());
-		assertEquals(new Integer(25), inventory.getQuantity());
+		assertEquals(25L, inventory.getQuantity());
 		assertEquals(new BigDecimal("0.67"), inventory.getPrice());
 		assertEquals("3XL", inventory.getType());
 		assertEquals("Industrial Specialties", inventory.getIndustry());
@@ -42,7 +42,7 @@ class InventoryJsonLineMapperTests {
 		Inventory inventory = mapper.mapLine("{\"product\":\"UTX\",\"quantity\":82,\"price\":\"$4.84\",\"type\":\"S\",\"industry\":\"Aerospace\",\"origin\":\"TX\"},", 1);
 		
 		assertEquals("UTX", inventory.getProduct());
-		assertEquals(new Integer(82), inventory.getQuantity());
+		assertEquals(82L, inventory.getQuantity());
 		assertEquals(new BigDecimal("4.84"), inventory.getPrice());
 		assertEquals("S", inventory.getType());
 		assertEquals("Aerospace", inventory.getIndustry());
@@ -57,7 +57,7 @@ class InventoryJsonLineMapperTests {
 		Inventory inventory = mapper.mapLine("{\"product\":\"MUI\",\"quantity\":22,\"price\":\"$0.91\",\"type\":\"2XL\",\"industry\":\"n/a\",\"origin\":\"TX\"}]}", 1);
 		
 		assertEquals("MUI", inventory.getProduct());
-		assertEquals(new Integer(22), inventory.getQuantity());
+		assertEquals(22L, inventory.getQuantity());
 		assertEquals(new BigDecimal("0.91"), inventory.getPrice());
 		assertEquals("2XL", inventory.getType());
 		assertEquals("n/a", inventory.getIndustry());

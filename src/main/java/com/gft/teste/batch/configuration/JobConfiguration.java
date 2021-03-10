@@ -26,8 +26,8 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.gft.teste.batch.mapper.InventoryJsonLineMapper;
+import com.gft.teste.batch.processor.FilterDuplicatedInSameFileItemProcessor;
 import com.gft.teste.model.Inventory;
-import com.gft.teste.processor.FilterDuplicatedInSameFileItemProcessor;
 import com.gft.teste.repository.InventoryRepository;
 
 @Configuration
