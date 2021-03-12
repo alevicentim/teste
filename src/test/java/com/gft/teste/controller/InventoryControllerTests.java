@@ -116,7 +116,7 @@ class InventoryControllerTests {
 		
 		mockMvc.perform(MockMvcRequestBuilders.get("/v1/inventory/calculate-distribution/product/" + product + "/store-ammount/1"))
 			.andExpect(status().isNotFound())
-			.andExpect(jsonPath("$.message", is("Produto '" + product + "' não encontrado.")));
+			.andExpect(jsonPath("$.message", is("Produto '" + product + "' não encontrado")));
 	}
 	
 	@Test
