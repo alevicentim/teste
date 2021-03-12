@@ -17,7 +17,7 @@ Para rodar a aplicação, seguir os passos abaixo:
 * Executar o comando abaixo:
 
 ```shell
-java -jar teste-1.0.0.jar
+java -jar teste-1.0.1.jar
 ```
 
 
