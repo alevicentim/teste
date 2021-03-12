@@ -25,6 +25,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import com.gft.teste.batch.listener.ChunkCountListener;
+import com.gft.teste.batch.listener.StepPartitionListener;
+import com.gft.teste.batch.listener.StepResultListener;
 import com.gft.teste.batch.mapper.InventoryJsonLineMapper;
 import com.gft.teste.batch.processor.FilterDuplicatedInSameFileItemProcessor;
 import com.gft.teste.model.Inventory;
@@ -32,6 +35,8 @@ import com.gft.teste.repository.InventoryRepository;
 
 @Configuration
 public class JobConfiguration {
+	
+	private static final int CHUNK_SIZE = 750;
 
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
@@ -86,14 +91,32 @@ public class JobConfiguration {
 	}
     
     @Bean
+    @StepScope
+    public ChunkCountListener chunkCountListener() {
+    	return new ChunkCountListener(CHUNK_SIZE);
+    }
+    
+    @Bean
+    public StepPartitionListener stepPartitionListener() {
+    	return new StepPartitionListener();
+    }
+    
+    @Bean
 	public Step readAndSaveDataSlaveStep() throws IOException {
     	return stepBuilderFactory.get("readAndSaveDataSlaveStep")
-				.<Inventory, Inventory>chunk(750)
+				.<Inventory, Inventory>chunk(CHUNK_SIZE)
 				.reader(inventoryItemReader(null))
 				.processor(filterDuplicatedItemProcessor())
 				.writer(inventoryItemWriter())
+				.listener(chunkCountListener())
+				.listener(stepPartitionListener())
 				.build();
 	}
+    
+    @Bean
+    public StepResultListener stepResultListener() {
+    	return new StepResultListener();
+    }
     
     @Bean
 	public ThreadPoolTaskExecutor taskExecutor() {
@@ -110,6 +133,7 @@ public class JobConfiguration {
     	return stepBuilderFactory.get("readAndSaveDataMasterStep")
 				.partitioner("readAndSaveDataSlaveStep", partitioner())
 				.step(readAndSaveDataSlaveStep())
+				.listener(stepResultListener())
 				.gridSize(4)
 				.taskExecutor(taskExecutor())
 				.build();

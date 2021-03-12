@@ -20,6 +20,9 @@ import com.gft.teste.presenter.ProductPresenter;
 import com.gft.teste.repository.InventoryRepository;
 import com.gft.teste.service.InventoryService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class InventoryServiceImpl implements InventoryService {
 	
@@ -28,10 +31,14 @@ public class InventoryServiceImpl implements InventoryService {
 
 	@Override
 	public List<ProductDistributionPresenter> calculateDistribution(String product, Long storeAmmount) {
+		log.debug("Buscando produto {}", product, storeAmmount);
+		
 		List<InventoryPresenter> inventories = inventoryRepository.findProductGroupedByPrice(product);
 		if (inventories.isEmpty()) {
+			log.debug("Produto {} não encontrado.", product);
 			return Collections.emptyList();
 		}
+		log.debug("Produto {} encontrado nos seguintes preçcos e quantidades: {}", product, inventories);
 		
 		Pair<List<InventoryPresenter>, LinkedList<InventoryPresenter>> productsDividedPair = this.separateProductsEquallyAndNotEquallyDivided(inventories, storeAmmount);
 		List<InventoryPresenter> productsEquallyDivided = productsDividedPair.getFirst();
@@ -45,12 +52,15 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 	
 	private Pair<List<InventoryPresenter>, LinkedList<InventoryPresenter>> separateProductsEquallyAndNotEquallyDivided(List<InventoryPresenter> inventories, Long storeAmmount) {
+		log.debug("Verificando como poderá ser feita a divisão dos produtos");
+		
 		List<InventoryPresenter> productsEquallyDivided = new ArrayList<>();
 		LinkedList<InventoryPresenter> productsNotEquallyDivided = new LinkedList<>();
 		
 		inventories.stream().forEach(p -> {
 			Long quotient = p.getAmount() / storeAmmount;
 			Long remainder = p.getAmount() % storeAmmount;
+			log.debug("Produto com preço ${} poderá ser dividido com {} unidade(s) pra cada loja, sobrando {} unidade(s)", p.getPrice(), quotient, remainder);
 			if(quotient > 0) {
 				productsEquallyDivided.add(new InventoryPresenter(p.getPrice(), quotient));
 			}
