@@ -11,21 +11,23 @@ Para construir o projeto com o Maven, seguir os passos abaixo:
 mvn clean package
 ```
 
-* O Arquivo teste-1.0.2.jar poderá ser encontrado na parta target, que será criada após a execução do comando
+* O Arquivo teste-1.0.3.jar poderá ser encontrado na parta target, que será criada após a execução do comando
 
 O comando irá baixar todas as dependências do projeto e criar um diretório *target* com os artefatos construídos, que incluem o arquivo jar do projeto. Além disso, serão executados os testes unitários, e se algum falhar, o Maven exibirá essa informação no console.
 
 ### Execução
 Para rodar a aplicação, seguir os passos abaixo:
-* Colocar o arquivo teste-1.0.1.jar, criado na contrução, na pasta onde desejar. Se quiser manter na pasta target, pode.
+* Colocar o arquivo teste-1.0.3.jar, criado na contrução, na pasta onde desejar. Se quiser manter na pasta target, pode.
 * Criar a diretório massa, no mesmo diretório onde encontra-se o arquivo .jar.
 * Copiar para um diretório massa, criado no passo acima, os 4 arquivos que devem ser carregados.
 * Executar o comando abaixo:
 
 ```shell
-java -jar teste-1.0.2.jar
+java -jar teste-1.0.3.jar
 ```
 
 
 ### Informações Adicionais
+* Acesso ao banco de dados utilizado pela aplicação: <a>http://localhost:8080/teste/h2-console/</a> (User=<i>sa</i>, Password=<i></i>)
+
 * Acesso ao swagger com o endpoint disponibilizado para o cálculo: <a>http://localhost:8080/teste/swagger-ui.html</a>
